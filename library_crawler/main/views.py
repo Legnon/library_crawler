@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 import datetime
 import os
 import mechanicalsoup
@@ -8,14 +8,15 @@ from urllib.parse import urlencode
 
 def main(request):
     context = {}
+    context_str = ""
 
     browser = mechanicalsoup.Browser()
 
     room_list = []
-    for i in range(45, 47):
+    for i in range(45, 53):
         room_list += [i]
-    # for i in range(63, 73):
-    #     room_list += [i]
+    for i in range(63, 73):
+        room_list += [i]
     today = datetime.datetime.today().strftime('%Y%m%d')
 
     # main url
@@ -48,8 +49,9 @@ def main(request):
             # submit form
             html = browser.submit(login_form, html.url)
 
-        context.update({str(rid): str(html.soup.find(class_='listtable'))})
+        context_str += str(rid) + "<br>" + str(html.soup.find(class_='listtable'))
+        # context.update({str(rid): str(html.soup.find(class_='listtable'))})
 
-    print(context)
-
-    return render(request, 'main/main.html', context)
+    # print(context)
+    return HttpResponse(context_str)
+    # return render(request, 'main/main.html', context)
