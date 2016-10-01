@@ -1,10 +1,14 @@
-from django.shortcuts import HttpResponse
 import datetime
 import os
-import mechanicalsoup
-import urllib.parse as urlparse
-from urllib.parse import urlencode
 import threading
+
+import urllib.parse as urlparse
+
+from urllib.parse import urlencode
+
+from django.shortcuts import HttpResponse
+
+import mechanicalsoup
 
 
 class MyThread(threading.Thread):
