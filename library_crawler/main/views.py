@@ -68,7 +68,13 @@ def get_result(room_list, date):
             elif html.soup.find(class_='listtable').find('tbody').text.strip() == "":
                 return "공휴일은 스터디룸이 없음"
 
-        result_str += str(rid) + "<br>" + str(html.soup.find(class_='listtable')) + "<br><br>"
+        if 45 <= rid <= 48:
+            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">백남 스터디룸 " + str(rid-44) + "</a>"
+        elif 49 <= rid <= 52:
+            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">법학 스터디룸 " + str(rid-48) + "</a>"
+        else:
+            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">Creative Zone " + str(rid-62) + "</a>"
+        result_str += link + "<br>" + str(html.soup.find(class_='listtable')) + "<br><br>"
 
     return result_str
 

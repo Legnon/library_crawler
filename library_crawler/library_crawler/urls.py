@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^(?P<room>\d{1})$', main),
     url(r'^(?P<date>\d{4,8})$', main),
     url(r'^(?P<room>\d{1})/(?P<date>\d{4,8})$', main),
+    url(r'^(?P<date>\d{4,8})/(?P<room>\d{1})$', main),
 ]
