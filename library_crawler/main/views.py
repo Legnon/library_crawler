@@ -69,14 +69,14 @@ def get_result(room_list, date):
                 return "공휴일은 스터디룸이 없음"
 
         if 45 <= rid <= 48:
-            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">백남 스터디룸 " + str(rid-44) + "</a>"
+            link = "<a href=\"" + url + "\" target=\"_blank\">백남 스터디룸 " + str(rid - 44) + "</a>"
         elif 49 <= rid <= 52:
-            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">법학 스터디룸 " + str(rid-48) + "</a>"
+            link = "<a href=\"" + url + "\" target=\"_blank\">법학 스터디룸 " + str(rid - 48) + "</a>"
         else:
-            link = "<a href=\"" + url + "\" target=\"_blank\" name=\"gotolibrary\">Creative Zone " + str(rid-62) + "</a>"
+            link = "<a href=\"" + url + "\" target=\"_blank\">Creative Zone " + str(rid - 62) + "</a>"
         result_str += link + "<br>" + str(html.soup.find(class_='listtable')) + "<br><br>"
 
-    return result_str
+    return "<div class=\"inline\">" + result_str + "</div>"
 
 
 def main(request, *args, **kwargs):
@@ -128,9 +128,11 @@ def main(request, *args, **kwargs):
 
     print(datetime.datetime.now())
 
+    css = "<html><head><style type=\"text/css\">.inline {float: left;display: inline-block;width: 25%;}</style></head><body>"
+
     if result_str1 == "예약 가능일이 아님" or result_str1 == "공휴일은 스터디룸이 없음":
         final_str = result_str1
     else:
-        final_str = result_str1 + result_str2 + result_str3 + result_str4
+        final_str = css + result_str1 + result_str2 + result_str3 + result_str4 + "</body></html>"
 
     return HttpResponse(final_str)
