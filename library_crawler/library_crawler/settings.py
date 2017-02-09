@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'main',
+    'comics',
+
+    'django_crontab',
+    # 'django_cron',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,9 @@ ROOT_URLCONF = 'library_crawler.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'main', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -120,3 +126,33 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+LOGIN_REDIRECT_URL = '/'
+
+CRONTAB_COMMAND_PREFIX = 'source /Users/gonghyeontaeg/.zshrc &&'
+CRONJOBS = [
+    ('*/5 * * * *', 'comics.cron.onepiece'),
+    ('*/5 * * * *', 'comics.cron.denma'),
+]
+# CRONTAB_COMMAND_SUFFIX = ''
+# CRONTAB_DJANGO_MANAGE_PATH = ''
+# CRONTAB_DJANGO_PROJECT_NAME = ''
+
+# CRON_CLASSES = [
+#     "comics.cron.WebtoonCrawl",
+# ]
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ.get("SENDGRID_USER", 'sendgrid_username')
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD", 'sendgrid_password')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
