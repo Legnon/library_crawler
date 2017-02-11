@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from .models import Onepiece, Denma
 
-from django_cron import CronJobBase, Schedule
+# from django_cron import CronJobBase, Schedule
 import mechanicalsoup
 
 
