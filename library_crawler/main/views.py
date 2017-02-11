@@ -4,6 +4,7 @@ import threading
 
 import urllib.parse as urlparse
 
+from collections import OrderedDict
 from urllib.parse import urlencode
 
 from django.shortcuts import HttpResponse
@@ -30,6 +31,7 @@ class MyThread(threading.Thread):
 
 def get_result(room_list, date):
     result_str = ""
+    context = OrderedDict()
 
     page_url = 'http://library.hanyang.ac.kr/studyroom/main'
 
@@ -70,10 +72,14 @@ def get_result(room_list, date):
 
         if 45 <= rid <= 48:
             link = "<a href=\"" + url + "\" target=\"_blank\">백남 스터디룸 " + str(rid - 44) + "</a>"
+            # context['baeknam'] += rid - 44
+
         elif 49 <= rid <= 52:
             link = "<a href=\"" + url + "\" target=\"_blank\">법학 스터디룸 " + str(rid - 48) + "</a>"
+            # context['law'] += str(rid - 48)
         else:
             link = "<a href=\"" + url + "\" target=\"_blank\">Creative Zone " + str(rid - 62) + "</a>"
+            # context['creative'] += str(rid - 62)
         result_str += link + "<br>" + str(html.soup.find(class_='listtable')) + "<br><br>"
 
     return "<div class=\"inline\">" + result_str + "</div>"
@@ -134,5 +140,7 @@ def main(request, *args, **kwargs):
         final_str = result_str1
     else:
         final_str = css + result_str1 + result_str2 + result_str3 + result_str4 + "</body></html>"
+
+    # return
 
     return HttpResponse(final_str)
