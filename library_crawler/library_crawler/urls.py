@@ -15,14 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from main.views import main
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^$', main),
-    url(r'^(?P<room>\d{1})/$', main),
-    url(r'^(?P<date>\d{4,8})/$', main),
-    url(r'^(?P<room>\d{1})/(?P<date>\d{4,8})/$', main),
-    url(r'^(?P<date>\d{4,8})/(?P<room>\d{1})/$', main),
+    url(r'^lib/', include('main.urls')),
 ]
