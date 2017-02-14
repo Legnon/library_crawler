@@ -37,13 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'main',
     'comics',
 
     'django_crontab',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     # 'django_cron',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,8 +146,8 @@ LOGIN_REDIRECT_URL = '/'
 
 CRONTAB_COMMAND_PREFIX = 'source /Users/gonghyeontaeg/.zshrc &&'
 CRONJOBS = [
-    ('*/5 * * * *', 'comics.cron.onepiece'),
-    ('*/5 * * * *', 'comics.cron.denma'),
+    ('*/1 * * * *', 'comics.cron.onepiece'),
+    ('*/1 * * * *', 'comics.cron.denma'),
 ]
 # CRONTAB_COMMAND_SUFFIX = ''
 # CRONTAB_DJANGO_MANAGE_PATH = ''
@@ -156,3 +162,8 @@ EMAIL_HOST_USER = os.environ.get("SENDGRID_USER", 'sendgrid_username')
 EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD", 'sendgrid_password')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
