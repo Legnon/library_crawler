@@ -202,14 +202,18 @@ http {
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
     server {
-        listen 443;
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name hyuis.xyz www.hyuis.xyz;
 
-        ssl on;
-        ssl_certificate /home/ubuntu/.ssh/1_www.hyuis.xyz_bundle.crt;
-        ssl_certificate_key /home/ubuntu/.ssh/hyuis.xyz.key;
+        ssl_certificate /etc/letsencrypt/live/hyuis.xyz/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/hyuis.xyz/privkey.pem;
         ssl_session_timeout 10m;
         ssl_session_cache shared:SSL:10m;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_protocols TLSv1.2;
+        ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+        ssl_prefer_server_ciphers on;
 
         client_max_body_size 3M;
         keepalive_timeout 5;
@@ -232,6 +236,11 @@ http {
             uwsgi_pass  127.0.0.1:8080;
             uwsgi_param UWSGI_SCHEME $scheme;
         }
+    }
+    server {
+        listen 80;
+        server_name hyuis.xyz;
+        return 301 https://$host$request_uri;
     }
 }
 '''
