@@ -80,6 +80,7 @@ class Installer(object):
             self.init_django_project()
             self.init_nginx()
             self.init_uwsgi()
+            self.init_crontab()
             self.service_start()
 
     def init_apt(self):
@@ -171,6 +172,9 @@ class Installer(object):
             sudo service {project_name} restart && \
             sudo service nginx restart
         ''')
+
+    def init_crontab(self):
+        self.command_run('(crontab -u ubuntu -l; echo "0 4 1 */2 * /opt/letsencrypt/letsencrypt-auto certonly --nginx --force-renewal -m rotanev7@gmail.com -d hyuis.xyz -d www.hyuis.xyz" ) | crontab -u ubuntu -')
 
     def command_run(self, command):
         if isinstance(command, (list, tuple)):
