@@ -174,7 +174,7 @@ class Installer(object):
         ''')
 
     def init_crontab(self):
-        self.command_run('(crontab -u ubuntu -l; echo "0 4 1 */2 * sudo /opt/letsencrypt/letsencrypt-auto certonly --nginx --force-renewal -m rotanev7@gmail.com -d hyuis.xyz -d www.hyuis.xyz" ) | crontab -u ubuntu -')
+        self.command_run('(crontab -u ubuntu -l; echo "0 4 1 */2 * sudo /opt/letsencrypt/letsencrypt-auto certonly --standalone --force-renewal -m rotanev7@gmail.com -d hyuis.xyz -d www.hyuis.xyz" ) | crontab -u ubuntu -')
 
     def command_run(self, command):
         if isinstance(command, (list, tuple)):
@@ -208,11 +208,13 @@ http {
     server {
         listen 80;
         listen [::]:80;
+        server_name hyuis.xyz www.hyuis.xyz;
+
         return 301 https://$host$request_uri;
     }
     server {
-        listen 443;
-        listen [::]:443;
+        listen 443 ssl;
+        listen [::]:443 ssl;
         server_name hyuis.xyz www.hyuis.xyz;
 
         ssl_certificate /etc/letsencrypt/live/hyuis.xyz/fullchain.pem;
