@@ -64,6 +64,13 @@ def get_result(room_list, date):
             # submit form
             html = browser.submit(login_form, html.url)
 
+            try:
+                if html.soup.find(class_='noticeW') is None:
+                    raise AttributeError
+            except AttributeError as e:
+                print(e)
+                return "비밀번호 틀림"
+
             # 예약 가능일이 아니거나 공휴일인 경우는 바로 리턴
             if html.soup.find(class_='noticeW').find('span', style="font: bold; color: red;"):
                 return "예약 가능일이 아님"
@@ -136,7 +143,7 @@ def main(request, *args, **kwargs):
 
     css = "<html><head><style type=\"text/css\">.inline {float: left;display: inline-block;width: 25%;}</style></head><body>"
 
-    if result_str1 == "예약 가능일이 아님" or result_str1 == "공휴일은 스터디룸이 없음":
+    if result_str1 == "예약 가능일이 아님" or result_str1 == "공휴일은 스터디룸이 없음" or result_str1 == "비밀번호 틀림":
         final_str = result_str1
     else:
         final_str = css + result_str1 + result_str2 + result_str3 + result_str4 + "</body></html>"
