@@ -144,7 +144,7 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'
 
-CRONTAB_COMMAND_PREFIX = 'source /Users/gonghyeontaeg/.zshrc &&'
+CRONTAB_COMMAND_PREFIX = 'source /Users/kong/.zshrc &&'
 CRONJOBS = [
     ('*/1 * * * *', 'comics.cron.onepiece'),
     ('*/1 * * * *', 'comics.cron.denma'),
